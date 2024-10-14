@@ -2,7 +2,7 @@
 
 import Btn from "@/app/ui/components/button";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 interface Pet {
     src: string;
@@ -189,33 +189,34 @@ export default function MainCategory({ gene, color }: { gene: string, color: str
     }, [page])
 
     // ham loc mang, tra ve mang moi theo yeu cau.
-    const filterGenePets = useCallback((gene: string) => {
+    const filterGenePets = useMemo(() => {
         if (gene != '') {
             const arrF = arrImgRef.current.filter(items => gene.includes(items.gene));
             return arrF;
         }
         return arrImgRef.current;
-    }, [])
+    }, [gene])
 
-    const filterColorPets = useCallback((color: string, arrFG: Pet[]) => {
+    const filterColorPets = useCallback((arrFG: Pet[]) => {
         if (color != '') {
             const arrF = arrFG.filter(items => color.includes(items.color));
             return arrF;
         }
         return arrFG;
-    }, [])
+    }, [color])
 
     useEffect(() => {
-        const arrFG = filterGenePets(gene);
-        const arrF = filterColorPets(color, arrFG);
+        const arrFG = filterGenePets;
+        const arrF = filterColorPets(arrFG);
         setArrFilter(arrF);
 
         const imgP = totalPets(arrF);
         setImgPage(imgP);
+    }, [filterGenePets, filterColorPets, totalPets])
 
+    useEffect(() => {
         showPages();
-    }, [gene, color, filterGenePets, filterColorPets, totalPets, showPages])
-
+    },[showPages])
     return (
         <>
             <div className="sm:hidden flex justify-between items-center pb-6">
