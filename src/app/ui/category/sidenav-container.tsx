@@ -1,35 +1,64 @@
 'use client';
 
+import TextInput from "@/app/ui/components/textfield";
 import { useState } from "react";
 
-export default function SideNavCategory({ onSendData }: { onSendData?: (data: { gene: string, color: string }) => void }) {
+export default function SideNavCategory({ onSendData }: { onSendData?: (data: { gene: string, color: string, min: string, max: string }) => void }) {
     const [gene, setGene] = useState('');
     const [color, setColor] = useState('');
+    const [min, setMin] = useState('');
+    const [max, setMax] = useState('');
 
     const checkGene = (value: string) => {
-        if (value == gene) {
+        if (gene.includes(value)) {
             setGene('');
             if (onSendData) {
-                onSendData({ gene: '', color });
+                onSendData({ gene: '', color, min, max });
             }
         } else {
             setGene(value);
             if (onSendData) {
-                onSendData({ gene: value, color });
+                onSendData({ gene: value, color, min, max });
             }
         }
     }
 
     const checkColor = (value: string) => {
-        if (value == color) {
+        if (color.includes(value)) {
             setColor('');
             if (onSendData) {
-                onSendData({ gene, color: ''});
+                onSendData({ gene, color: '', min, max });
             }
         } else {
             setColor(value);
             if (onSendData) {
-                onSendData({ gene, color: value});
+                onSendData({ gene, color: value, min, max });
+            }
+        }
+    }
+
+    const onSendDataMin = (value: string) => {
+        setMin(value);
+        if (value == '') {
+            if (onSendData) {
+                onSendData({ gene, color, min: '', max });
+            }
+        } else {
+            if (onSendData) {
+                onSendData({ gene, color, min: value, max });
+            }
+        }
+    }
+
+    const onSendDataMax = (value: string) => {
+        setMax(value);
+        if (value == '') {
+            if (onSendData) {
+                onSendData({ gene, color, min, max: '' });
+            }
+        } else {
+            if (onSendData) {
+                onSendData({ gene, color, min, max: value });
             }
         }
     }
@@ -78,6 +107,10 @@ export default function SideNavCategory({ onSendData }: { onSendData?: (data: { 
                 </div>
                 <div className="py-4 border-b">
                     <h3 className="font-bold">Price</h3>
+                    <div className="flex pt-2 gap-3">
+                        <TextInput type="number" placeholder="Min" isInputSearch={false} onSendData={onSendDataMin}></TextInput>
+                        <TextInput type="number" placeholder="Max" isInputSearch={false} onSendData={onSendDataMax}></TextInput>
+                    </div>
                 </div>
                 <div className="py-4 border-b mb-20">
                     <h3 className="font-bold">Breed</h3>

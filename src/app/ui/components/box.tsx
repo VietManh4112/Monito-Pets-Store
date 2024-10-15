@@ -1,4 +1,4 @@
-import Btn from "@/app/components/button";
+import Btn from "@/app/ui/components/button";
 
 export default function Box({ title, type, count }: { title: string, type: string, count: number }) {
     return (

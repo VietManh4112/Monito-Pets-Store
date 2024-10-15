@@ -18,6 +18,8 @@ export default function Btn({ children, type, onClick, load }:
                 return 'w-full py-2 justify-center bg-gray-300 text-black font-medium mt-6';
             case 'view':
                 return 'w-auto px-7 py-3 text-base border border-solid border-black text-[var(--blue)] font-normal rounded-3xl';
+            case 'sort':
+                return 'w-auto px-7 text-base border border-solid border-black text-[var(--blue)] font-normal rounded-3xl';
             case 'explore':
                 return 'w-auto px-7 py-3 bg-[var(--blue)] text-white font-normal rounded-3xl';
             default:

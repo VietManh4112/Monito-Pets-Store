@@ -7,15 +7,21 @@ import { useState } from "react";
 interface Filter {
     gene: string,
     color: string,
+    min: string,
+    max: string,
 }
 
 export default function ContainerCategory() {
     const [gene, setGene] = useState('');
     const [color, setColor] = useState('');
+    const [min, setMin] = useState('');
+    const [max, setMax] = useState('');
 
     const onSendData = ((data: Filter) => {
         setGene(data.gene);
-        setColor(data.color)
+        setColor(data.color);
+        setMin(data.min);
+        setMax(data.max);
     })
     
     return (
@@ -24,7 +30,7 @@ export default function ContainerCategory() {
                 <SideNavCategory onSendData={onSendData}></SideNavCategory>
             </div>
             <div className="col-span-3">
-                <MainCategory gene={gene} color={color}></MainCategory>
+                <MainCategory gene={gene} color={color} min={min} max={max}></MainCategory>
             </div>
         </>
     );
