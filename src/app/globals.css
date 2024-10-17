@@ -5,24 +5,34 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
-  --yellow: #f7dba7;
+  --myellow: #F7DBA7;
+  --myellow-80: #EEC77E;
+  --myellow-60: #F1D092;
+  --myellow-40: #FCEED5;
   --linear: #fceed5;
-  --blue: #003459;
-  --dblue: #002A48;
-  --marquee-duration : 28352ms;
-  --fade-in: 0.5s;
+  --dblue: #003459;
+  --dblue-80: #002A48;
+  --dblue-60: #00528C;
+  --dblue-40: #0078CD;
+  --marquee-duration: 28352ms;
+  --fade-in: 1s;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-    --yellow: #f7dba7;
+    --myellow: #F7DBA7;
+    --myellow-80: #EEC77E;
+    --myellow-60: #F1D092;
+    --myellow-40: #FCEED5;
     --linear: #fceed5;
-    --blue: #003459;
-  --dblue: #002A48;
-    --marquee-duration : 28352ms;
-  --fade-in: 0.5s;
+    --dblue: #003459;
+    --dblue-80: #002A48;
+    --dblue-60: #00528C;
+    --dblue-40: #0078CD;
+    --marquee-duration: 28352ms;
+    --fade-in: 1s;
   }
 }
 

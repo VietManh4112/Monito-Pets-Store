@@ -10,13 +10,13 @@ export default function Page() {
             <div className="bg-[var(--linear)] rounded-b-3xl overflow-hidden pt-32 sm:pt-20">
                 <HomePets></HomePets>
             </div>
-            <div className="py-16 bg-gray-50">
+            <div className="py-16">
                 <Pets></Pets>
             </div>
-            <div className="py-16 bg-gray-50 hidden sm:block">
+            <div className="py-16 hidden sm:block">
                 <ProductsPets></ProductsPets>
             </div>
-            <div className="py-16 bg-gray-50">
+            <div className="py-16">
                 <FAQsPets></FAQsPets>
             </div>
         </>

@@ -3,7 +3,7 @@
 import Btn from "@/app/ui/components/button";
 import { BoxsSekeleton } from "@/app/ui/sekeletons";
 import Image from "next/image";
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 interface Pet {
     src: string;
@@ -156,6 +156,7 @@ export function BoxImage({ arrImg, gene, color, min, max, page, onSendData }: { 
     const [imgPage, setImgPage] = useState<Pet[]>([]);
     const itemsPerPage = useRef(6);
     const [arrFilter, setArrFilter] = useState<Pet[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const hoverImg = (hoverSrc: string, index: number) => {
         setImg(prev => prev.map((src, i) => (i === index ? hoverSrc : src)));
@@ -207,21 +208,29 @@ export function BoxImage({ arrImg, gene, color, min, max, page, onSendData }: { 
         return arrFC;
     }, [min, max])
 
-    useEffect(() => {
-        const arrFG = filterGenePets;
-        const arrFC = filterColorPets(arrFG);
-        const arrFP = filterPricePets(arrFC);
-        setArrFilter(arrFP);
-        if (onSendData) {
-            onSendData(arrFP.length)
-        }
+    useLayoutEffect(() => {
+        const fetchImages = async () => {
+            setLoading(true);
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            setLoading(false);
+            const arrFG = filterGenePets;
+            const arrFC = filterColorPets(arrFG);
+            const arrFP = filterPricePets(arrFC);
+            setArrFilter(arrFP);
+            if (onSendData) {
+                onSendData(arrFP.length)
+            }
 
-        const imgP = totalPets(arrFP);
-        setImgPage(imgP);
+            const imgP = totalPets(arrFP);
+            setImgPage(imgP);
+        };
+
+        fetchImages();
     }, [filterGenePets, filterColorPets, filterPricePets, totalPets, onSendData])
 
-
-
+    if (loading) {
+        return <div><BoxsSekeleton /></div>;
+    }
     return (
         <>
             <div className="flex justify-between items-center">

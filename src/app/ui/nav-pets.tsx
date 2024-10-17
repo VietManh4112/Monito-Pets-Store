@@ -3,7 +3,7 @@
 import Btn from "@/app/ui/components/button";
 import TextInput from "@/app/ui/components/textfield";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 
 export default function NavPets() {
     const bgRef = useRef<HTMLDivElement>(null);
@@ -40,7 +40,7 @@ export default function NavPets() {
         console.log('a')
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         updateBgSize();
     }, [updateBgSize])
 
@@ -85,19 +85,19 @@ export default function NavPets() {
                             </clipPath>
                         </defs>
                     </svg>
-                    <div className="relative hidden text-[var(--blue)] sm:flex gap-12 pl-12 items-center text-lg font-medium z-10">
+                    <div className="relative hidden text-[var(--dblue)] sm:flex gap-12 pl-12 items-center text-base font-bold z-10">
                         <div ref={bgRef} className="absolute opacity-0 bg-gray-300 rounded-lg -z-10 transition-all duration-500 ease-in-out"></div>
                         <Link href='/'>
-                            <div ref={(el) => { linkRefs.current[0] = el; }} onMouseMove={() => setIndex(0)} onMouseLeave={leaveLink}>Home</div>
+                            <div ref={(el) => { linkRefs.current[0] = el; }} onMouseEnter={() => setIndex(0)} onMouseLeave={leaveLink}>Home</div>
                         </Link>
                         <Link href='/category'>
-                            <div ref={(el) => { linkRefs.current[1] = el; }} onMouseMove={() => setIndex(1)} onMouseLeave={leaveLink}>Category</div>
+                            <div ref={(el) => { linkRefs.current[1] = el; }} onMouseEnter={() => setIndex(1)} onMouseLeave={leaveLink}>Category</div>
                         </Link>
                         <Link href='/about'>
-                            <div ref={(el) => { linkRefs.current[2] = el; }} onMouseMove={() => setIndex(2)} onMouseLeave={leaveLink}>About</div>
+                            <div ref={(el) => { linkRefs.current[2] = el; }} onMouseEnter={() => setIndex(2)} onMouseLeave={leaveLink}>About</div>
                         </Link>
                         <Link href='/contact'>
-                            <div ref={(el) => { linkRefs.current[3] = el; }} onMouseMove={() => setIndex(3)} onMouseLeave={leaveLink}>Contact</div>
+                            <div ref={(el) => { linkRefs.current[3] = el; }} onMouseEnter={() => setIndex(3)} onMouseLeave={leaveLink}>Contact</div>
                         </Link>
                     </div>
                 </div>
@@ -110,7 +110,7 @@ export default function NavPets() {
                 <div className="hidden sm:flex gap-4 pl-9">
                     <div className="hidden xl:flex gap-4">
                         <TextInput type="text" placeholder="Search something here!" isInputSearch={true}></TextInput>
-                        <Btn type="explore" onClick={handleButton} load={false}>Join the community</Btn>
+                        <Btn type="join" onClick={handleButton} load={false}>Join the community</Btn>
                     </div>
                     <div className="flex justify-center items-center">
                         <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">

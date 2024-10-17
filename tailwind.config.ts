@@ -31,16 +31,28 @@ const config: Config = {
           '0%': {opacity: '0'},
           '100%': {opacity: '1'},
         },
-        'marquee': {
+        'marqueeY': {
           '100%': {transform: 'translateY(-50%)'}
-        }
+        },
+        'marqueeX': {
+          '100%': {transform: 'translateX(-100%)'}
+        },
+        shimmer: {
+          '100%': {
+            transform: 'translateX(100%)',
+          },
+        },
       },
       animation: {
         shake: 'shake 1s ease-in-out infinite',
         'spin-slow': 'spin 4s linear infinite',
         'spin-reverse-slower':  'spin-reverse 6s linear infinite',
         'fade-in': 'fade-in var(--fade-in) linear forwards',
-        'marquee': 'marquee var(--marquee-duration) linear infinite',
+        'marqueeX': 'marqueeX var(--marquee-duration) linear infinite',
+        'marqueeY': 'marqueeY var(--marquee-duration) linear infinite',
+      },
+      cursor: {
+        'custom': 'url("/cursor.svg") 10 10, auto',
       }
     },
   },

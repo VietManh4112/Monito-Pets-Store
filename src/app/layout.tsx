@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en" className='scroll-smooth'>
-            <body className='font-mono'>
+            <body className='font-mono cursor-custom'>
                 <div className="mx-auto max-w-7xl">
                     <NavPets></NavPets>
                 </div>

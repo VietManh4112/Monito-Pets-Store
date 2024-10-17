@@ -9,7 +9,7 @@ export default function HeaderCategory() {
     const titleRefs2 = useRef<(HTMLSpanElement | null)[]>([]);
     const divRefs = useRef<(HTMLDivElement | null)[]>([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const titleArray1 = ['O', 'n', 'e', ' ', 'M', 'o', 'r', 'e', ' ', 'F', 'r', 'i', 'e', 'n', 'd', ' '];
+    const titleArray1 = ['O', 'n', 'e', ' ', 'M', 'o', 'r', 'e', ' ', 'F', 'r', 'i', 'e', 'n', 'd'];
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const titleArray2 = ['T', 'h', 'o', 'u', 's', 'a', 'n', 'd', 's', ' ', 'M', 'o', 'r', 'e', ' ', 'F', 'u', 'n', '!'];
 
@@ -62,7 +62,7 @@ export default function HeaderCategory() {
                 <div className="max-w-6xl mx-auto grid sm:grid-cols-7 gap-8 px-4 sm:px-0">
                     <div className="relative sm:col-span-4 order-2 sm:order-1">
                         <div className="sm:absolute bottom-0 w-full">
-                            <Image src='/bg-category.png' alt="img" width={160} height={160} className="object-cover w-full"></Image>
+                            <Image src='/bg-category.svg' alt="img" width={160} height={160} className="object-cover w-full"></Image>
                         </div>
                     </div>
                     <div className="sm:col-span-3 my-auto z-10 flex flex-col order-1 sm:order-2 sm:items-end sm:text-end sm:pr-12">
@@ -81,8 +81,8 @@ export default function HeaderCategory() {
                         <div ref={(el) => { divRefs.current[6] = el; }} className="opacity-0 text-[var(--dblue)] sm:text-white" style={{ '--fade-in': `${2}s` } as React.CSSProperties}>
                             <div className="mt-4 sm:mt-10 max-w-sm text-xs">Having a pet means you have more joy, a new friend, a happy person who will always be with you to have fun. We have 200+ diffrent pets than can meet your need!</div>
                             <div className="flex justify-end gap-5 mt-10 sm:mb-16">
-                                <Btn type="view" load={false}>View Intro</Btn>
-                                <Btn type="explore" load={false}>Explore Now</Btn>
+                                <Btn type="view-cate" load={false}>View Intro</Btn>
+                                <Btn type="explore-cate" load={false}>Explore Now</Btn>
                             </div>
                         </div>
                     </div>
