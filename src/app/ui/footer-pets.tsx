@@ -46,7 +46,7 @@ export default function FooterPets() {
                     <div className="font-bold text-xl text-white">Register Now So You Don`t Miss Our Programs </div>
                     <div className="col-span-2 p-3 mt-4 sm:mt-0 sm:flex space-y-3 sm:space-y-0 bg-white rounded-2xl">
                         <input type="text" placeholder="Enter your Email" className="w-full sm:flex-1 border border-gray-500 rounded-lg mr-5 px-7 py-3"></input>
-                        <Btn type="explore" load={false}>Subcribe Now</Btn>
+                        <Btn type="subscribe" load={false}>Subcribe Now</Btn>
                     </div>
                 </div>
                 <div className="py-10 sm:flex justify-between border-b-2">

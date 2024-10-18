@@ -2,7 +2,7 @@
 
 import Btn from "@/app/ui/components/button";
 import Image from "next/image";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useLayoutEffect, useRef } from "react";
 
 export default function HomePets() {
     const titleRefs1 = useRef<(HTMLSpanElement | null)[]>([]);
@@ -48,45 +48,40 @@ export default function HomePets() {
         if (divRefs.current) {
             divRefs.current[5]?.classList.add('translate-y-[600px]');
             divRefs.current[0]?.classList.add('translate-y-[600px]');
-            divRefs.current[1]?.classList.add('translate-y-[600px]');
+            divRefs.current[1]?.classList.add('translate-y-[600px]', 'rotate-[20deg]');
 
             setTimeout(() => {
                 divRefs.current[0]?.classList.remove('translate-y-[600px]');
                 divRefs.current[0]?.classList.add('bottom-0', 'sm:-left-6', 'left-20', 'translate-y-[270px]');
-                setTimeout(() => {
-                    divRefs.current[0]?.classList.add('rotate-[22deg]');
-                }, 500)
-
-                divRefs.current[5]?.classList.remove('translate-y-[600px]', 'opacity-0');
-            }, 800)
-
-            setTimeout(() => {
                 divRefs.current[1]?.classList.remove('translate-y-[600px]');
                 divRefs.current[1]?.classList.add('bottom-0', 'sm:-left-20', 'left-14', 'translate-y-[280px]');
                 setTimeout(() => {
+                    divRefs.current[0]?.classList.add('rotate-[22deg]');
+                    divRefs.current[1]?.classList.remove('rotate-[20deg]');
                     divRefs.current[1]?.classList.add('sm:rotate-[9deg]', 'rotate-[5deg]')
+                    divRefs.current[5]?.classList.remove('translate-y-[600px]', 'opacity-0');
                 }, 500)
             }, 1000)
 
             setTimeout(() => {
-                divRefs.current[2]?.classList.add('top-0', 'left-10', 'translate-y-[100px]' ,'rotate-[24deg]');
+                divRefs.current[2]?.classList.add('top-0', 'left-10', 'translate-y-[100px]', 'rotate-[24deg]');
                 divRefs.current[3]?.classList.add('top-0', 'left-0', 'translate-y-[155px]', 'rotate-[43deg]');
                 divRefs.current[4]?.classList.add('top-0', 'left-0', 'translate-y-[160px]', 'rotate-[-23deg]');
-            },1500)
+            }, 2000)
         }
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         showTextTitle();
         animateDiv();
     }, [showTextTitle])
 
     return (
         <>
-            <div className="absolute w-[635px] h-[635px] rounded-[99px] bg-[var(--myellow)] translate-x-[-220px] sm:translate-x-[-250px] translate-y-[-740px] sm:translate-y-[-680px] rotate-[25deg]">
+            <div className="absolute w-[635px] h-[635px] rounded-[99px] bg-[var(--myellow)] translate-x-[-220px] sm:translate-x-[-250px] translate-y-[-740px] sm:translate-y-[-680px] rotate-[25deg] z-20">
             </div>
 
-            <div className="overflow-hidden relative px-0">
+            <div className="overflow-hidden relative px-2 sm:px-0">
                 <div className="mx-auto max-w-7xl grid sm:grid-cols-12 gap-2">
                     <div className="sm:col-span-5 my-auto z-10">
                         <div className="relative">
@@ -94,9 +89,9 @@ export default function HomePets() {
                                 {titleArray1.map((t, index) => (
                                     <span ref={(el) => { titleRefs1.current[index] = el; }} key={index} className="opacity-0">{t}</span>
                                 ))}
-                                <div>
+                                <div className="text-4xl sm:text-5xl font-bold">
                                     {titleArray2.map((t, index) => (
-                                        <span ref={(el) => { titleRefs2.current[index] = el; }} key={index} className="text-4xl sm:text-5xl opacity-0 font-bold">{t}</span>
+                                        <span ref={(el) => { titleRefs2.current[index] = el; }} key={index} className="opacity-0">{t}</span>
                                     ))}
                                 </div>
                             </h1>

@@ -2,42 +2,23 @@
 
 import Btn from "@/app/ui/components/button";
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 
 export default function InforPets() {
-    const arrImg = [{
-        src: 'https://attic.sh/_static/ai/dreamscape/hero/1b8kJg95Pe.webp',
-        id: 1,
-    }, {
-        src: 'https://attic.sh/_static/ai/dreamscape/hero/G47WLGkElE.webp',
-        id: 2
-    }, {
-        src: 'https://attic.sh/_static/ai/dreamscape/hero/2tiRYWaEHt.webp',
-        id: 3
-    }, {
-        src: 'https://attic.sh/_static/ai/dreamscape/hero/6Oz1Zg5p59.webp',
-        id: 4
-    }, {
-        src: 'https://attic.sh/_static/ai/dreamscape/hero/E1ttxT2auD.webp',
-        id: 5
-    }, {
-        src: 'https://attic.sh/_static/ai/dreamscape/hero/eJ76fg8xAl.webp',
-        id: 6
-    }, {
-        src: 'https://attic.sh/_static/ai/dreamscape/hero/EWXw15CnkD.webp',
-        id: 7
-    }, {
-        src: 'https://attic.sh/_static/ai/dreamscape/hero/fbB4a0CWRe.webp',
-        id: 8
-    }, {
-        src: 'https://attic.sh/_static/ai/dreamscape/hero/hqmfPjLDVr.webp',
-        id: 9
-    }, {
-        src: 'https://attic.sh/_static/ai/dreamscape/hero/i0Mc6XGDy9.webp',
-        id: 10
-    }]
+    const arrImg = [{ src: 'https://attic.sh/_static/ai/dreamscape/hero/1b8kJg95Pe.webp', id: 1, },
+    { src: 'https://attic.sh/_static/ai/dreamscape/hero/G47WLGkElE.webp', id: 2 },
+    { src: 'https://attic.sh/_static/ai/dreamscape/hero/2tiRYWaEHt.webp', id: 3 },
+    { src: 'https://attic.sh/_static/ai/dreamscape/hero/6Oz1Zg5p59.webp', id: 4 },
+    { src: 'https://attic.sh/_static/ai/dreamscape/hero/E1ttxT2auD.webp', id: 5 },
+    { src: 'https://attic.sh/_static/ai/dreamscape/hero/eJ76fg8xAl.webp', id: 6 },
+    { src: 'https://attic.sh/_static/ai/dreamscape/hero/EWXw15CnkD.webp', id: 7 },
+    { src: 'https://attic.sh/_static/ai/dreamscape/hero/fbB4a0CWRe.webp', id: 8 },
+    { src: 'https://attic.sh/_static/ai/dreamscape/hero/hqmfPjLDVr.webp', id: 9 },
+    { src: 'https://attic.sh/_static/ai/dreamscape/hero/i0Mc6XGDy9.webp', id: 10 }
+    ]
     const [imgId, setImgId] = useState(0);
     const svgRef = useRef<HTMLDivElement>(null);
+    const divRef = useRef<HTMLDivElement>(null);
     const imgRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     const handleImg = (id: number) => {
@@ -64,7 +45,7 @@ export default function InforPets() {
     }
 
     const nextImg = () => {
-        const newId = (imgId + 1 + arrImg.length) % arrImg.length;
+        const newId = (imgId + 1) % arrImg.length;
         setImgId(newId);
         if (imgRefs.current[newId]) {
             imgRefs.current[newId].scrollIntoView({
@@ -87,29 +68,45 @@ export default function InforPets() {
         }
     }
 
+    const effectImg = () => {
+        if (divRef.current) {
+            divRef.current.classList.add('-translate-y-8');
+            setTimeout(() => {
+                if (divRef.current) {
+                    divRef.current.classList.remove('opacity-0','-translate-y-8');
+                    divRef.current.classList.add('translate-y-0', 'animate-fade-in');
+                }
+            },300)
+        }
+    }
+
+    useLayoutEffect(() => {
+        effectImg();
+    }, [])
+
     return (
         <>
-            <div className="sm:grid grid-cols-2 gap-8 border rounded-3xl px-4 sm:px-5 py-6">
-                <div className="overflow-hidden select-none">
+            <div className="sm:grid grid-cols-2 gap-8 border rounded-3xl px-4 sm:px-5 py-6 tr">
+                <div ref={divRef} className="overflow-hidden select-none opacity-0 duration-1000 ease-in-out">
                     <div className="relative" onMouseMove={showSvg} onMouseLeave={leaveImg}>
                         <Image src={arrImg[imgId].src} alt="img" width={160} height={160} className="w-full aspect-[7/9] sm:aspect-[7/6] rounded-xl object-cover"></Image>
                         <div ref={svgRef} className="sm:opacity-0">
-                            <div className="absolute top-1/2 left-4 bg-white/40 rounded-full cursor-pointer" onClick={prevImg}>
+                            <div className="absolute top-[45%] left-4 bg-white/40 rounded-full cursor-pointer" onClick={prevImg}>
                                 <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M28.1667 32.5L21.6667 26L28.1667 19.5" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </div>
-                            <div className="absolute top-1/2 right-4 bg-white/40 rounded-full cursor-pointer" onClick={nextImg}>
+                            <div className="absolute top-[45%] right-4 bg-white/40 rounded-full cursor-pointer" onClick={nextImg}>
                                 <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M23.8335 32.5L30.3335 26L23.8335 19.5" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </div>
                         </div>
                     </div>
-                    <div className={`${imgId == 6 ? '' : ''} py-3 flex items-center gap-3 snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none]`}>
+                    <div className="py-3 flex items-center gap-2 sm:gap-3 snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none]">
                         {arrImg.map((arr) => (
-                            <div ref={(el) => { imgRefs.current[arr.id - 1] = el; }} key={arr.id} className={`${arr.id - 1 === imgId ? 'border-4 border-[#F1D092] rounded-xl' : ''} flex-none snap-center cursor-pointer`} onClick={() => handleImg(arr.id - 1)}>
-                                <Image src={arr.src} alt="img" width={94} height={94} className="object-cover rounded-md"></Image>
+                            <div ref={(el) => { imgRefs.current[arr.id - 1] = el; }} key={arr.id} className={`${arr.id - 1 === imgId ? 'border-4 border-[var(--myellow-60)] rounded-xl' : ''} flex-none snap-center cursor-pointer`} onClick={() => handleImg(arr.id - 1)}>
+                                <Image src={arr.src} alt="img" width={94} height={94} className="object-cover w-16 sm:w-24 rounded-md"></Image>
                             </div>
                         ))}
                     </div>
@@ -247,10 +244,19 @@ export default function InforPets() {
                             <div className="mt-2">34.000.000 VND</div>
                         </h1>
                     </div>
-                    <div className="flex gap-5">
+                    <div className="flex gap-3 sm:gap-5">
                         <Btn type="explore" load={false}>Contact us</Btn>
                         <div className="flex-1">
                             <Btn type="view" load={false}>Chat with Monito</Btn>
+                        </div>
+                    </div>
+                    <div className="sm:hidden flex justify-between p-2 items-center">
+                        <h2 className="font-bold text-lg text-black">Information</h2>
+                        <div className="flex gap-2 font-bold text-sm text-[var(--dblue-80)]">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.5 11.25L12.5 13.75M12.5 6.25L7.5 8.75M15 17.5C13.6193 17.5 12.5 16.3807 12.5 15C12.5 13.6193 13.6193 12.5 15 12.5C16.3807 12.5 17.5 13.6193 17.5 15C17.5 16.3807 16.3807 17.5 15 17.5ZM5 12.5C3.61929 12.5 2.5 11.3807 2.5 10C2.5 8.61929 3.61929 7.5 5 7.5C6.38071 7.5 7.5 8.61929 7.5 10C7.5 11.3807 6.38071 12.5 5 12.5ZM15 7.5C13.6193 7.5 12.5 6.38071 12.5 5C12.5 3.61929 13.6193 2.5 15 2.5C16.3807 2.5 17.5 3.61929 17.5 5C17.5 6.38071 16.3807 7.5 15 7.5Z" stroke="#002A48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                            <p>Share</p>
                         </div>
                     </div>
                     <div className="font-medium text-gray-600 text-sm">
@@ -300,10 +306,10 @@ export default function InforPets() {
                         </div>
                         <div className="flex border-b py-3">
                             <p className="px-3 w-[194px]">Additional Information</p>
-                            <div>
+                            <div className="flex-1">
                                 <p>:Pure breed Shih Tuz.</p>
-                                <p>&nbsp;Good body structure.</p>
-                                <p>&nbsp;With MKA cert and Microchip.</p>
+                                <p>Good body structure.</p>
+                                <p>With MKA cert and Microchip.</p>
                             </div>
                         </div>
                     </div>

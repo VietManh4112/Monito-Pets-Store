@@ -2,7 +2,7 @@
 
 import Btn from "@/app/ui/components/button";
 import Image from "next/image";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useLayoutEffect, useRef } from "react";
 
 export default function HeaderCategory() {
     const titleRefs1 = useRef<(HTMLSpanElement | null)[]>([]);
@@ -40,7 +40,7 @@ export default function HeaderCategory() {
         }, 1000)
     }, [titleArray1, titleArray2]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         showTextTitle();
     }, [showTextTitle])
 
@@ -71,18 +71,22 @@ export default function HeaderCategory() {
                                 {titleArray1.map((t, index) => (
                                     <span ref={(el) => { titleRefs1.current[index] = el; }} key={index} className="opacity-0">{t}</span>
                                 ))}
-                                <div>
+                                <div className="text-3xl sm:text-4xl font-bold">
                                     {titleArray2.map((t, index) => (
-                                        <span ref={(el) => { titleRefs2.current[index] = el; }} key={index} className="text-3xl sm:text-4xl opacity-0 font-bold">{t}</span>
+                                        <span ref={(el) => { titleRefs2.current[index] = el; }} key={index} className="opacity-0">{t}</span>
                                     ))}
                                 </div>
                             </h1>
                         </div>
                         <div ref={(el) => { divRefs.current[6] = el; }} className="opacity-0 text-[var(--dblue)] sm:text-white" style={{ '--fade-in': `${2}s` } as React.CSSProperties}>
                             <div className="mt-4 sm:mt-10 max-w-sm text-xs">Having a pet means you have more joy, a new friend, a happy person who will always be with you to have fun. We have 200+ diffrent pets than can meet your need!</div>
-                            <div className="flex justify-end gap-5 mt-10 sm:mb-16">
+                            <div className="hidden sm:flex justify-end gap-5 mt-10 sm:mb-16">
                                 <Btn type="view-cate" load={false}>View Intro</Btn>
                                 <Btn type="explore-cate" load={false}>Explore Now</Btn>
+                            </div>
+                            <div className="flex sm:hidden justify-end gap-5 mt-10 sm:mb-16">
+                                <Btn type="view" load={false}>View Intro</Btn>
+                                <Btn type="explore" load={false}>Explore Now</Btn>
                             </div>
                         </div>
                     </div>

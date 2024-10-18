@@ -5,7 +5,7 @@ import FooterPets from "@/app/ui/footer-pets";
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Pricing Plans',
+    template: '%s | Pets',
     default: 'Pets'
   }
 }

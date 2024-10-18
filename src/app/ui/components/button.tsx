@@ -14,10 +14,10 @@ export default function Btn({ children, type, onClick, load }:
                 return 'w-auto border py-1 items-center gap-1 bg-white px-3 text-gray-600';
             case 'sale':
                 return 'text-fuchsia-700';
-            case 'subscribe':
+            case 'subscribe1':
                 return 'w-full py-2 justify-center bg-gray-300 text-black font-medium mt-6';
             case 'join':
-                return 'w-auto px-7 text-base border border-solid text-white bg-[var(--dblue)] font-bold rounded-[57px]';
+                return 'w-full sm:w-auto px-7 text-base py-2 sm:py-0 border border-solid text-white bg-[var(--dblue)] font-bold rounded-[57px]';
             case 'view':
                 return 'w-auto px-7 py-3 gap-2 text-sm sm:text-base border border-[var(--dblue)] border-2 text-[var(--dblue)] font-medium rounded-[57px] hover:scale-110';
             case 'view-cate':
@@ -30,6 +30,8 @@ export default function Btn({ children, type, onClick, load }:
                 return 'w-auto px-9 py-3 text-sm sm:text-base bg-white text-black font-medium rounded-[57px] hover:scale-110';
             case 'more':
                 return 'w-full sm:w-auto px-7 py-3 gap-2 text-sm border border-[var(--dblue)] border-2 text-[var(--dblue)] font-medium rounded-[57px] hover:scale-110';
+            case 'subscribe':
+                return 'w-full sm:w-auto px-9 py-3 text-base bg-[var(--dblue)] text-white font-medium rounded-lg sm:rounded-[57px] hover:scale-110';
             default:
                 return ''
         }

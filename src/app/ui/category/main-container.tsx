@@ -1,5 +1,6 @@
 'use client';
 
+import SideNavCategory from "@/app/ui/category/sidenav-container";
 import Btn from "@/app/ui/components/button";
 import { BoxsSekeleton } from "@/app/ui/sekeletons";
 import Image from "next/image";
@@ -16,7 +17,14 @@ interface Pet {
     color: string;
 }
 
-export default function MainCategory({ gene, color, min, max }: { gene: string, color: string, min: string, max: string }) {
+interface Filter {
+    gene: string,
+    color: string,
+    min: string,
+    max: string,
+}
+
+export default function MainCategory() {
     const arrImg = [{
         src: 'https://attic.sh/_static/ai/dreamscape/hero/1b8kJg95Pe.webp', hoverSrc: 'https://attic.sh/_static/ai/dreamscape/hero/i0Mc6XGDy9.webp', name: 'M0231 - Pomeranian', gene: 'Male', age: '02 months', price: '6900000', color: 'Red', id: 0
     }, {
@@ -118,6 +126,22 @@ export default function MainCategory({ gene, color, min, max }: { gene: string, 
     const [length, setLength] = useState(1);
     const itemsPerPage = useRef(6);
     const maxPage = Math.ceil(length / itemsPerPage.current);
+    const [gene, setGene] = useState('');
+    const [color, setColor] = useState('');
+    const [min, setMin] = useState('');
+    const [max, setMax] = useState('');
+    const [isShowFilter, setIsShowFilter] = useState(false);
+    const filterRef = useRef<HTMLDivElement>(null);
+    const [isPc, setIsPc] = useState(true)
+
+    const onSendDataFilter = ((data: Filter, source: string) => {
+        const checkW = source === 'desktop' ? true : false;
+        setIsPc(checkW);
+        setGene(data.gene);
+        setColor(data.color);
+        setMin(data.min);
+        setMax(data.max);
+    })
 
     const onSendDataPagging = (value: number) => {
         setPage(value);
@@ -127,25 +151,44 @@ export default function MainCategory({ gene, color, min, max }: { gene: string, 
         setLength(value);
     }
 
+    const showFilter = () => {
+        setIsShowFilter(!isShowFilter);
+    }
+
+    useEffect(() => {
+        if (!isShowFilter && filterRef.current) {
+            filterRef.current.classList.add('scale-50', 'translate-x-[100px]', 'translate-y-[-100px]');
+        }
+    }, [isShowFilter])
+
     return (
         <>
-            <div className="sm:hidden flex justify-between items-center pb-6">
-                <div>
-                    <Btn type="view" load={false}>Sort by:Popular</Btn>
-                </div>
-                <div className="flex gap-2 px-3">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 6.33723V5.59998C20 5.03992 19.9996 4.75993 19.8906 4.54602C19.7948 4.35786 19.6425 4.20487 19.4544 4.10899C19.2405 4 18.9597 4 18.3996 4H5.59961C5.03956 4 4.75981 4 4.5459 4.10899C4.35774 4.20487 4.20487 4.35786 4.10899 4.54602C4 4.75993 4 5.03992 4 5.59998V6.33723C4 6.58182 4 6.70417 4.02763 6.81925C4.05213 6.92129 4.09263 7.0188 4.14746 7.10828C4.20928 7.20916 4.29574 7.29562 4.46859 7.46846L4.46875 7.46863L9.53149 12.5314C9.70444 12.7043 9.79068 12.7908 9.85252 12.8917C9.90735 12.9812 9.94816 13.0787 9.97266 13.1808C10 13.2947 10 13.4156 10 13.6553V13.6627V18.4111C10 19.2683 10 19.697 10.1805 19.9551C10.3382 20.1805 10.5814 20.3311 10.8535 20.3713C11.1651 20.4173 11.5487 20.2256 12.3154 19.8423L13.1154 19.4423C13.4365 19.2817 13.5968 19.2014 13.7141 19.0817C13.8178 18.9758 13.897 18.8481 13.9453 18.708C14 18.5495 14 18.3701 14 18.0111V13.6627C14 13.4181 14 13.2959 14.0276 13.1808C14.0521 13.0787 14.0926 12.9812 14.1475 12.8917C14.2093 12.7908 14.2957 12.7044 14.4685 12.5316L14.4688 12.5314L19.5315 7.46863C19.7044 7.29568 19.7907 7.20919 19.8525 7.10828C19.9073 7.0188 19.9482 6.92129 19.9727 6.81925C20 6.70534 20 6.58431 20 6.34468V6.33723Z" stroke="#002A48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <h3>Filter</h3>
-                </div>
+            <div className="hidden sm:block select-none">
+                {isPc && <SideNavCategory onSendData={onSendDataFilter}></SideNavCategory>}
             </div>
+            <div className="col-span-3">
+                <div className="sm:hidden flex justify-between items-center pb-6  relative z-10">
+                    <Btn type="sort" load={false}>Sort by:Popular</Btn>
+                    <div className="flex gap-2 px-3" onClick={showFilter}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 6.33723V5.59998C20 5.03992 19.9996 4.75993 19.8906 4.54602C19.7948 4.35786 19.6425 4.20487 19.4544 4.10899C19.2405 4 18.9597 4 18.3996 4H5.59961C5.03956 4 4.75981 4 4.5459 4.10899C4.35774 4.20487 4.20487 4.35786 4.10899 4.54602C4 4.75993 4 5.03992 4 5.59998V6.33723C4 6.58182 4 6.70417 4.02763 6.81925C4.05213 6.92129 4.09263 7.0188 4.14746 7.10828C4.20928 7.20916 4.29574 7.29562 4.46859 7.46846L4.46875 7.46863L9.53149 12.5314C9.70444 12.7043 9.79068 12.7908 9.85252 12.8917C9.90735 12.9812 9.94816 13.0787 9.97266 13.1808C10 13.2947 10 13.4156 10 13.6553V13.6627V18.4111C10 19.2683 10 19.697 10.1805 19.9551C10.3382 20.1805 10.5814 20.3311 10.8535 20.3713C11.1651 20.4173 11.5487 20.2256 12.3154 19.8423L13.1154 19.4423C13.4365 19.2817 13.5968 19.2014 13.7141 19.0817C13.8178 18.9758 13.897 18.8481 13.9453 18.708C14 18.5495 14 18.3701 14 18.0111V13.6627C14 13.4181 14 13.2959 14.0276 13.1808C14.0521 13.0787 14.0926 12.9812 14.1475 12.8917C14.2093 12.7908 14.2957 12.7044 14.4685 12.5316L14.4688 12.5314L19.5315 7.46863C19.7044 7.29568 19.7907 7.20919 19.8525 7.10828C19.9073 7.0188 19.9482 6.92129 19.9727 6.81925C20 6.70534 20 6.58431 20 6.34468V6.33723Z" stroke="#002A48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        <h3 className="text-base font-bold text-[var(--dblue-80)]">Filter</h3>
+                    </div>
+                    <div ref={filterRef} className={`${isShowFilter ? '' : 'opacity-0'} absolute right-0 top-14 px-2 bg-[var(--linear)] rounded-xl duration-500 ease-in-out`}>
+                        <div className={`${isShowFilter ? '' : 'hidden'}`}>
+                            <div className="w-8 h-8 bg-[var(--linear)] absolute rotate-45 -top-4 right-8"></div>
+                            {!isPc && <SideNavCategory onSendData={onSendDataFilter} />}
+                        </div>
+                    </div>
+                </div>
 
-            <Suspense fallback={<BoxsSekeleton />}>
-                <BoxImage arrImg={arrImg} gene={gene} color={color} min={min} max={max} page={page} onSendData={onSendDataBoxImage}></BoxImage>
-            </Suspense>
+                <Suspense fallback={<BoxsSekeleton />}>
+                    <BoxImage arrImg={arrImg} gene={gene} color={color} min={min} max={max} page={page} onSendData={onSendDataBoxImage}></BoxImage>
+                </Suspense>
 
-            <Pagging maxPage={maxPage} onSendData={onSendDataPagging}></Pagging>
+                <Pagging maxPage={maxPage} onSendData={onSendDataPagging}></Pagging>
+            </div>
         </>
     );
 }
@@ -217,16 +260,19 @@ export function BoxImage({ arrImg, gene, color, min, max, page, onSendData }: { 
             const arrFC = filterColorPets(arrFG);
             const arrFP = filterPricePets(arrFC);
             setArrFilter(arrFP);
-            if (onSendData) {
-                onSendData(arrFP.length)
-            }
 
             const imgP = totalPets(arrFP);
             setImgPage(imgP);
         };
 
         fetchImages();
-    }, [filterGenePets, filterColorPets, filterPricePets, totalPets, onSendData])
+    }, [filterGenePets, filterColorPets, filterPricePets, totalPets])
+
+    useEffect(() => {
+        if (onSendData) {
+            onSendData(arrFilter.length)
+        }
+    }, [arrFilter.length, onSendData])
 
     if (loading) {
         return <div><BoxsSekeleton /></div>;

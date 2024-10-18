@@ -3,12 +3,14 @@
 import Btn from "@/app/ui/components/button";
 import TextInput from "@/app/ui/components/textfield";
 import Link from "next/link";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 
 export default function NavPets() {
     const bgRef = useRef<HTMLDivElement>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
     const linkRefs = useRef<(HTMLDivElement | null)[]>([]);
-    const [selectedIndex, setSelectedIndex] = useState(Number)
+    const [selectedIndex, setSelectedIndex] = useState(Number);
+    const [isHideMenu, setIsHideMenu] = useState(true);
 
     const setIndex = (index: number) => {
         setSelectedIndex(index);
@@ -21,6 +23,24 @@ export default function NavPets() {
         if (bgRef.current) {
             bgRef.current.classList.add('opacity-0')
         }
+    }
+
+    const showMenu = () => {
+        setIsHideMenu(false);
+        if (menuRef.current) {
+            menuRef.current.classList.add('translate-y-[10px]');
+
+            setTimeout(() => {
+                if (menuRef.current) {
+                    menuRef.current.classList.remove('translate-y-[10px]');
+                    menuRef.current.classList.add('translate-y-0', 'animate-fade-in');
+                }
+            })
+        }
+    }
+
+    const hideMenu = () => {
+        setIsHideMenu(true);
     }
 
     const updateBgSize = useCallback(() => {
@@ -47,11 +67,18 @@ export default function NavPets() {
 
     return (
         <>
-            <div className="absolute py-7 w-full sm:max-w-7xl flex items-center justify-between z-10">
+            <div className="absolute py-7 w-full sm:max-w-7xl flex items-center justify-between z-30">
                 <div className="sm:hidden ml-2">
-                    <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6.6665 23.1667H25.3332M6.6665 16.5H25.3332M6.6665 9.83334H25.3332" stroke="#00171F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <div className={`${isHideMenu ? '' : 'hidden'}`}>
+                        <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={showMenu}>
+                            <path d="M6.6665 23.1667H25.3332M6.6665 16.5H25.3332M6.6665 9.83334H25.3332" stroke="#00171F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </div>
+                    <div className={`${isHideMenu ? 'hidden' : ''}`}>
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={hideMenu}>
+                            <path d="M6.66675 21.3333L16.0001 12L25.3334 21.3333" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </div>
                 </div>
                 <div className="flex">
                     <svg width="115" height="40" viewBox="0 0 115 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -124,13 +151,24 @@ export default function NavPets() {
                                 </clipPath>
                             </defs>
                         </svg>
-
                         <div className="pl-2">VND</div>
                         <div className="p-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-3">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                             </svg>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div className={`${isHideMenu ? 'hidden' : ''} fixed inset-0 z-20 bg-gray-300/60 backdrop-blur`} aria-hidden="true" data-headlessui-state="open" data-open onClick={hideMenu}></div>
+            <div className={`${isHideMenu ? 'hidden' : ''} relative w-full h-full`}>
+                <div ref={menuRef} className="absolute top-0 pt-28 bg-[var(--linear)] w-full z-20 rounded-2xl duration-700 ease-in-out" style={{ '--fade-in': `${0.5}s` } as React.CSSProperties}>
+                    <div className="px-3 pb-4 flex flex-col gap-4 text-base font-bold text-[var(--dblue)]">
+                        <Link href='/' onClick={hideMenu}>Home</Link>
+                        <Link href='/category' onClick={hideMenu}>Category</Link>
+                        <Link href='/about' onClick={hideMenu}>About</Link>
+                        <Link href='/contact' onClick={hideMenu}>Contact</Link>
+                        <Btn type="join" onClick={handleButton} load={false}>Join the community</Btn>
                     </div>
                 </div>
             </div>
